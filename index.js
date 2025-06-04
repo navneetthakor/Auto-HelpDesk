@@ -1,9 +1,9 @@
 // ------------------ dotenv setup (to use environment variables) ---------
-const setupDotEnv = require("./setupenv.js");
+const setupDotEnv = require("./utils/setupenv.js");
 setupDotEnv();
 
 // ------------------ to connect with mongoDB -----------------------------
-const connectToMongo = require("./db.js");
+const connectToMongo = require("./utils/db.js");
 connectToMongo();
 
 // /------------------------- importing required modules----------------------

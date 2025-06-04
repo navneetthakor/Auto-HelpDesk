@@ -1,8 +1,8 @@
 // importing packages 
 const User = require('../../Models/User.model');
 const crypto = require('crypto');
-const transporter = require('../../myMailer');
-const createResponse = require('../../Response');
+const transporter = require('../../utils/myMailer');
+const createResponse = require('../../utils/Response');
 
 
 const forgotPassword = async (req, res) => {

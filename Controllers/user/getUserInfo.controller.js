@@ -1,6 +1,6 @@
 // to connect with collection in mongoDb 
 const User = require('../../Models/User.model');
-const createResponse = require('../../Response');
+const createResponse = require('../../utils/Response');
 
 const updateUser = async (req,res) => {
     try{

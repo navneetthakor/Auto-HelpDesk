@@ -1,7 +1,7 @@
 // importing packages 
 const User = require('../../Models/User.model');
 const bcrypt = require('bcryptjs');
-const createResponse = require('../../Response');
+const createResponse = require('../../utils/Response');
 
 const resetPassword = async (req, res) => {
   try {

@@ -11,9 +11,9 @@ const analyzeTicket = async (ticket) => {
 
 Your job is to:
 1. Summarize the issue.
-2. Estimate its priority.
+2. Estimate its priority based on the priority_rules that will suply with ticket.
 3. Provide helpful notes and resource links for human moderators.
-4. List relevant technical skills required.
+4. list skills for this ticket from provided skills_array.
 
 IMPORTANT:
 - Respond with *only* valid raw JSON.
@@ -46,8 +46,11 @@ Respond ONLY in this JSON format and do not include any other text or markdown i
 
 Ticket information:
 
-- Title: ${ticket.title}
-- Description: ${ticket.description}`);
+- Title: ${ticket.title};
+- Description: ${ticket.description};
+- priority_rules: ${ticket.priority_rules};
+- skills_array: ${ticket.skills_array};
+`)
 
   const raw = response.output[0].context;
 

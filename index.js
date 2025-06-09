@@ -23,10 +23,12 @@ app.use(express.urlencoded({ extended: true }));
 // --------------------------- Routing setup -------------------------------
 // importing routes files
 const userRoutes = require("./Routes/user.route.js");
+const ticketRoutes = require("./Routes/ticket.route.js");
 
 
 // placing middlewares for router
 app.use("/User",userRoutes);
+app.use("/Ticket", ticketRoutes)
 
 // default routes
 app.get("/", (req, res) => res.json({ signal: "green" }));

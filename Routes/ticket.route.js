@@ -1,10 +1,14 @@
-import express from "express";
-import { authenticate } from "../middlewares/auth.js";
-import { createTicket, getTicket, getTickets } from "../controllers/ticket.js";
-
+// to use the express 
+const fetchUser = require('../Middelwares/fetchUser.middelware.js');
+const express = require('express');
 const router = express.Router();
 
-router.post("/", fetchUser, getTickets);
+// importing middleware 
+
+// importing controllers
+const createTicket = require('../Controllers/ticket/createTicket.controller.js');
+
+router.post("/createTicket", fetchUser, createTicket);
 
 
-export default router;
+module.exports = router;

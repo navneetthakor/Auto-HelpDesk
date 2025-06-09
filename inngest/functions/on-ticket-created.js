@@ -1,17 +1,16 @@
-import { inngest } from "../client.js";
-import Ticket from "../../Models/Ticket.model.js";
-import User from "../../Models/User.model.js";
-import { NonRetriableError } from "inngest";
-import { sendMail } from "../../utils/mailer.js";
-import analyzeTicket from "../../utils/ai.js";
+const { inngest } = require("../client.js");
+const Ticket = require("../../Models/Ticket.model.js") ;
+const { NonRetriableError } = require("inngest");
+const analyzeTicket = require("../../utils/ai.js");
 
 export const onTicketCreated = inngest.createFunction(
   { id: "on-ticket-created", retries: 2 },
   { event: "ticket/created" },
   async ({ event, step }) => {
     try {
+      console.log("before step1")
       const { ticketId } = event.data;
-
+      
       //fetch ticket from DB
       const ticket = await step.run("fetch-ticket", async () => {
         const ticketObject = await Ticket.findById(ticketId);
@@ -20,7 +19,8 @@ export const onTicketCreated = inngest.createFunction(
         }
         return ticketObject;
       });
-
+      console.log("before step2")
+      
       // classify ticket and get priority, relatedSkills etc.
       const tempTicket = { ...ticket }
       tempTicket.priority_rules = [
@@ -35,17 +35,18 @@ export const onTicketCreated = inngest.createFunction(
           priority: 'low'
         },
       ]
-
+      
       tempTicket.skills_array = ['react.js','next.js','jquery','auth','autodb','publish']
       const aiTicketClassificationResponse = await analyzeTicket(ticket);
-
+      
+      console.log("before ste3")
       const relatedskills = await step.run("ai-processing", async () => {
         let skills = [];
         if (aiTicketClassificationResponse) {
           await Ticket.findByIdAndUpdate(ticket._id, {
             priority: !["low", "medium", "high"].includes(aiTicketClassificationResponse.priority)
-              ? "medium"
-              : aiTicketClassificationResponse.priority,
+            ? "medium"
+            : aiTicketClassificationResponse.priority,
             helpfulNotes: aiTicketClassificationResponse.helpfulNotes,
             status: "IN_PROGRESS",
             relatedSkills: aiTicketClassificationResponse.relatedSkills,
@@ -54,6 +55,7 @@ export const onTicketCreated = inngest.createFunction(
         }
         return skills;
       });
+      console.log("before step4")
 
       // const moderator = await step.run("assign-moderator", async () => {
       //   let user = await User.findOne({
